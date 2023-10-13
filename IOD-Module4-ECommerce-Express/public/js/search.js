@@ -30,6 +30,11 @@ function resultShow(title, price, image, id) {
       let currentValue = parseInt(sessionStorage["itemCount"]);
       sessionStorage["itemCount"] = currentValue + 1;
       window.location.href = "/index.html";
+
+      axios.post(`/shop/add/${id}`, {
+        id:id,
+    }).then(function(response){console.log(`sending id: ${response}`)}).catch(function(error){console.log(error)})
+
     });
   document.querySelector("#search-results").appendChild(template);
 }
@@ -49,7 +54,7 @@ document
     let searchKeyword = search.toLowerCase() || null;
 
     axios
-      .get("https://fakestoreapi.com/products")
+      .get("/shop")
       .then((response) => {
         const data = response.data;
         let resultArray = [];

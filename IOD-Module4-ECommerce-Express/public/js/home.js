@@ -26,7 +26,7 @@ function homeImagesShow(image, title, id) {
   template.querySelector(`.id${id}`).addEventListener("click", function (e) {
     let inputId = id;
     localStorage.setItem("myId", inputId);
-    window.location.href = "./pages/item.html";
+    window.location.href = "../item.html";
   });
   // include the populated template into the page
   document.querySelector("#homeImages-show").appendChild(template);
@@ -45,7 +45,7 @@ function addCard(title, price, image, id) {
   template.querySelector(`.id${id}`).addEventListener("click", function (e) {
     let inputId = id;
     localStorage.setItem("myId", inputId);
-    window.location.href = "./pages/item.html";
+    window.location.href = "../item.html";
   });
   template.querySelector(".card-title").innerText = title;
   template.querySelector(".card-price").innerText = price + " NZD";
@@ -73,16 +73,29 @@ function addCard(title, price, image, id) {
     let currentValue = parseInt(sessionStorage["itemCount"]);
     sessionStorage["itemCount"] = currentValue + 1;
     window.location.href = "/index.html";
+
+    axios.post(`/shop/add/${id}`, {
+        id:id,
+    }).then(function(response){console.log(`sending id: ${response}`)}).catch(function(error){console.log(error)})
+
   });
   document.querySelector("#card-list").appendChild(template);
 }
 
+// const instance = axios.create({
+//     baseURL: 'http://127.0.0.1:4000',
+//     // timeout: 1000,
+//     headers: {'Access-Control-Allow-Origin':'http://127.0.0.1:4000'}
+//   });
+
 //To load Home Image
 function loadHomeImage() {
   axios
-    .get("https://fakestoreapi.com/products")
+    .get("/shop")
+
     .then((response) => {
       const data = response.data;
+      console.log(data);
       // randomise image on home page
       homeImage = data[Math.floor(Math.random() * data.length)];
       homeImagesShow(homeImage.image, homeImage.title, homeImage.id);
@@ -108,22 +121,13 @@ function getCategorySpecificAPI() {
         }
         document.querySelector("#homeImages-show").style.display = "none";
         (categoryArray[key] === ".women"
-          ? axios.get(
-              "https://fakestoreapi.com/products/category/women's%20clothing"
-            )
+          ? axios.get("/shop/women")
           : categoryArray[key] === ".men"
-          ? axios.get(
-              `https://fakestoreapi.com/products/category/men\'s%20clothing`
-            )
-          : axios.get(
-              `https://fakestoreapi.com/products/category/${categoryArray[
-                key
-              ].substring(1)}`
-            )
+          ? axios.get("shop/men")
+          : axios.get(`shop/${categoryArray[key].substring(1)}`)
         )
           .then((response) => {
             const data = response.data;
-            //console.log(response.data);
             data.forEach((item) => {
               addCard(item.title, item.price, item.image, item.id);
             });
