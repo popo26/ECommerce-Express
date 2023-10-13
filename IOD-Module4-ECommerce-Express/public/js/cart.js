@@ -300,7 +300,7 @@ class Chart {
                 count++;
                 console.log(`count is ${count}`);
                 // Hide duplicate item
-                const dups = document.querySelectorAll(`.cartId${data.id}`);
+                const dups = document.querySelectorAll(`.cartId${data[i].id}`);
 
                 for (let k = 0; k < dups.length; k++) {
                   dups[k].style.display = "none";

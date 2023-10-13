@@ -6,7 +6,6 @@ window.onload = function () {
   selectedItem.getItem();
 };
 
-
 class Item {
   constructor(id) {
     this.id = id;
@@ -23,32 +22,30 @@ class Item {
         document.querySelector(".item-description").innerHTML =
           data.description;
         document.querySelector(".item-rating").innerHTML = data.rating.rate;
-        document.querySelector(".add-btn").classList.add(`AddBtnId${this.id}`);
+        document.querySelector(".add-btn").classList.add(`addBtnId${this.id}`);
 
-        // document
-        // .querySelector(`.AddBtnId${this.id}`)
-        // .addEventListener("click", function (e) {
-        //   // sessionStorage.setItem(
-        //   //   "itemCount",
-        //   //   !sessionStorage["itemCount"] ? 0 : sessionStorage["itemCount"]
-        //   // );
-        //   // let currentValue = parseInt(sessionStorage["itemCount"]);
-        //   // sessionStorage["itemCount"] = currentValue + 1;
-        //   // window.location.href = "/index.html";
-  
-        //   axios
-        //     .post(`/shop/add/${this.id}`, {
-        //       id: this.id,
-        //     })
-        //     .then(function (response) {
-        //       console.log(`sending id: ${response}`);
-        //     })
-        //     .catch(function (error) {
-        //       console.log(error);
-        //     });
-        // });
+        document
+          .querySelector(`.addBtnId${this.id}`)
+          .addEventListener("click", function () {
+            sessionStorage.setItem(
+              "itemCount",
+              !sessionStorage["itemCount"] ? 0 : sessionStorage["itemCount"]
+            );
+            let currentValue = parseInt(sessionStorage["itemCount"]);
+            sessionStorage["itemCount"] = currentValue + 1;
+            window.location.href = "/index.html";
 
-
+            axios
+              .post(`/shop/add/${this.id}`, {
+                id: this.id,
+              })
+              .then(function (response) {
+                console.log(`sending id: ${response}`);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          });
       })
       .catch((error) => {
         console.error(`Error: ${error.message}`);
@@ -56,29 +53,28 @@ class Item {
       });
 
     //Track cliking count of Add button.
-    document.querySelector(".add-btn").addEventListener("click", function (e) {
+    // document.querySelector(".add-btn").addEventListener("click", function (e) {
     // document
-    //   .querySelector(`.AddBtnId${this.id}`)
+    //   .querySelector(`.addBtnId${this.id}`)
     //   .addEventListener("click", function (e) {
-        sessionStorage.setItem(
-          "itemCount",
-          !sessionStorage["itemCount"] ? 0 : sessionStorage["itemCount"]
-        );
-        let currentValue = parseInt(sessionStorage["itemCount"]);
-        sessionStorage["itemCount"] = currentValue + 1;
-        window.location.href = "/index.html";
+    //     sessionStorage.setItem(
+    //       "itemCount",
+    //       !sessionStorage["itemCount"] ? 0 : sessionStorage["itemCount"]
+    //     );
+    //     let currentValue = parseInt(sessionStorage["itemCount"]);
+    //     sessionStorage["itemCount"] = currentValue + 1;
+    //     window.location.href = "/index.html";
 
-        // axios
-        //   .post(`/shop/add/${this.id}`, {
-        //     id: this.id,
-        //   })
-        //   .then(function (response) {
-        //     console.log(`sending id: ${response}`);
-        //   })
-        //   .catch(function (error) {
-        //     console.log(error);
-        //   });
-      });
+    //     axios
+    //       .post(`/shop/add/${this.id}`, {
+    //         id: this.id,
+    //       })
+    //       .then(function (response) {
+    //         console.log(`sending id: ${response}`);
+    //       })
+    //       .catch(function (error) {
+    //         console.log(error);
+    //       });
+    //   });
   }
-
 }
