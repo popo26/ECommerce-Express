@@ -8,7 +8,7 @@ const shopRoutes = require("./routes/shopRoutes");
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
 app.use(express.json());
-app.use("/shop", shopRoutes)
+app.use("/shop", shopRoutes);
 
 
 app.listen(port, () => {

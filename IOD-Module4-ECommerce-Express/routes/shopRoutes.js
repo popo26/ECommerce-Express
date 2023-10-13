@@ -1,16 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
+const getAllProductsController = require("../controllers/getAllProductsController");
+const getCategoryListController = require("../controllers/getCategoryListController");
+const getSelectedItemController = require("../controllers/getSelectedItemController");
+const postItemController = require("../controllers/postItemController");
 
 let cartItem = [];
 
 router.get("/", (req, res) => {
-  axios.get("https://fakestoreapi.com/products").then((response) => {
-    const data = response.data;
-    //console.log(data);
-    res.status(200);
-    res.send(data);
-  });
+  getAllProductsController.getAllProducts(req, res);
 });
 
 router.get("/cart", (req, res) => {
@@ -20,37 +19,15 @@ router.get("/cart", (req, res) => {
 });
 
 router.get("/:type", (req, res) => {
-  console.log("req.param is", req.params);
-  const result = req.params;
-  let url;
-
-  result.type == "women"
-    ? (url = "https://fakestoreapi.com/products/category/women's%20clothing")
-    : result.type == "men"
-    ? (url = "https://fakestoreapi.com/products/category/men's%20clothing")
-    : (url = `https://fakestoreapi.com/products/category/${result.type}`);
-
-  axios.get(url).then((response) => {
-    const data = response.data;
-    //console.log(data);
-    res.status(200);
-    res.json(data);
-  });
+  getCategoryListController.getCetegoryList(req, res);
 });
 
 router.get("/item/:id", (req, res) => {
-  console.log("req.param is", req.params);
-  const result = req.params;
-  const url = `https://fakestoreapi.com/products/${result.id}`;
-  axios.get(url).then((response) => {
-    const data = response.data;
-    //console.log(data);
-    res.status(200);
-    res.json(data);
-  });
+  getSelectedItemController.getSelectedItem(req, res);
 });
 
 router.post("/add/:id", (req, res) => {
+  // postItemController.postItem(req,res);
   console.log("req.param is", req.params);
   const result = req.params;
   axios
@@ -61,7 +38,7 @@ router.post("/add/:id", (req, res) => {
       res.status(200);
       res.json(data);
       cartItem.push(data);
-      console.log("Cart Item in Add ROute:", cartItem)
+      console.log("Cart Item in Add ROute:", cartItem);
     });
 });
 
