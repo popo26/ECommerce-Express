@@ -61,7 +61,7 @@ router.post("/add/:id", (req, res) => {
       res.status(200);
       res.json(data);
       cartItem.push(data);
-      //console.log("Cart Item :", cartItem)
+      console.log("Cart Item in Add ROute:", cartItem)
     });
 });
 
