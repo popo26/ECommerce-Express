@@ -1,22 +1,27 @@
 const axios = require("axios");
+const Logger = require("./Logger");
+const logging = new Logger();
 
 class DataFetch {
-  constructor() {
-    this.id = Math.floor(Math.random() * 1000000);
-  }
 
-  #logResultArray = (data) => {
-    console.log(`ID:${this.id}, Data Length: ${data.length}`);
-  };
+    constructor() {}
+//   constructor() {
+//     this.id = Math.floor(Math.random() * 1000000);
+//   }
 
-  #logResultId = (data) => {
-    console.log(`ID:${this.id}, Data ID: ${data.id}`);
-  };
+  //   #logResultArray = (data) => {
+  //     console.log(`ID:${this.id}, Data Length: ${data.length}`);
+  //   };
+
+  //   #logResultId = (data) => {
+  //     console.log(`ID:${this.id}, Data ID: ${data.id}`);
+  //   };
 
   fetchAll(req, res) {
     axios.get("https://fakestoreapi.com/products").then((response) => {
       const data = response.data;
-      this.#logResultArray(data);
+      //   this.#logResultArray(data);
+      logging.logApiFetchResultArray(data);
       res.status(200);
       res.send(data);
     });
@@ -28,7 +33,8 @@ class DataFetch {
     const url = `https://fakestoreapi.com/products/${result.id}`;
     axios.get(url).then((response) => {
       const data = response.data;
-      this.#logResultId(data);
+      //   this.#logResultId(data);
+      logging.logApiFetchResultId(data);
       res.status(200);
       res.json(data);
     });
@@ -48,7 +54,8 @@ class DataFetch {
     axios.get(url).then((response) => {
       const data = response.data;
       //console.log(data);
-      this.#logResultArray(data);
+      //   this.#logResultArray(data);
+      logging.logApiFetchResultArray(data);
       res.status(200);
       res.json(data);
     });
