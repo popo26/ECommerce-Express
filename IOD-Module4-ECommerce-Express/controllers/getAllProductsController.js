@@ -1,13 +1,10 @@
 const axios = require("axios");
+const DataFetch = require('../libraries/DataFetch');
+const dataFetch = new DataFetch();
 
 
 const getAllProducts = (req,res)=>{
-    axios.get("https://fakestoreapi.com/products").then((response) => {
-        const data = response.data;
-        //console.log(data);
-        res.status(200);
-        res.send(data);
-      });
+    dataFetch.fetchAll(req,res);
 }
 
 module.exports = {getAllProducts};
