@@ -4,24 +4,9 @@ const logging = new Logger();
 let cartItems = [];
 
 class CartFetch {
-    constructor() {}
-//   constructor() {
-//     this.id = Math.floor(Math.random() * 100000);
-//   }
-
-//   #log = (cartArray) => {
-//     console.log("********************************************************");
-//     console.log(`Cart Transaction ID:${this.id}`);
-//     cartArray == 0
-//       ? console.log("No item in the cart.")
-//       : console.log(
-//           `Current Cart Item IDs: ${cartArray.map((item) => item.id)}`
-//         );
-//     console.log("********************************************************");
-//   };
+  constructor() {}
 
   getItems = (req, res) => {
-    // this.#log(cartItems);
     logging.logCartItems(cartItems);
     res.json(cartItems);
   };
@@ -35,7 +20,6 @@ class CartFetch {
         res.status(200);
         res.json(data);
         cartItems.push(data);
-        // this.#log(cartItems);
         logging.logCartItems(cartItems);
       });
   };
@@ -43,7 +27,6 @@ class CartFetch {
   deleteItem = (req, res) => {
     const result = req.params;
     cartItems = cartItems.filter((item) => item.id != result.id);
-    // this.#log(cartItems);
     logging.logCartItems(cartItems);
     res.json(cartItems);
   };
