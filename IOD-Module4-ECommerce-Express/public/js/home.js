@@ -82,12 +82,6 @@ function addCard(title, price, image, id) {
   document.querySelector("#card-list").appendChild(template);
 }
 
-// const instance = axios.create({
-//     baseURL: 'http://127.0.0.1:4000',
-//     // timeout: 1000,
-//     headers: {'Access-Control-Allow-Origin':'http://127.0.0.1:4000'}
-//   });
-
 //To load Home Image
 function loadHomeImage() {
   axios

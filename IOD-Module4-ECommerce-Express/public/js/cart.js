@@ -3,7 +3,6 @@ let sum = 0;
 
 window.onload = function () {
   const itemCount = sessionStorage.getItem("itemCount");
-  //console.log("Total Count is " + itemCount);
 
   if (itemCount < 1) {
     document.querySelector(".with-items").style.display = "block";
@@ -12,17 +11,8 @@ window.onload = function () {
   } else {
     document.querySelector(".with-items").style.display = "block";
 
-    // const myChart = new Chart(
-    //   "https://fakestoreapi.com/products",
-    //   randomItemList
-    // );
-    // myChart.randomItems(itemCount);
-    const myChart = new Chart(
-      randomItemList
-    );
+    const myChart = new Chart(randomItemList);
     myChart.randomItems();
-
-    // axios.get('/shop/cart').then(response => console.log(response.data))
   }
 };
 
@@ -66,10 +56,16 @@ function showCartItems(title, price, image, id, count) {
       let currentValue = parseInt(sessionStorage["itemCount"]);
       sessionStorage["itemCount"] = currentValue - count;
 
-      axios.post(`/shop/delete/${id}`, {
-        id:id,
-    }).then(function(response){console.log(`sending id: ${response}`)}).catch(function(error){console.log(error)})
-
+      axios
+        .post(`/shop/delete/${id}`, {
+          id: id,
+        })
+        .then(function (response) {
+          console.log(`sending id: ${response}`);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     });
   document.querySelector("#cart-item-list").appendChild(template);
 }
@@ -103,182 +99,15 @@ function grandTotal(id) {
   ).innerHTML = `Grand Total: <span>${sum.toFixed(2)} NZD</span>`;
 }
 
-// //Chart class With actual random data from API
-// class Chart {
-//   constructor(url, list) {
-//     this.url = url;
-//     this.list = list;
-//   }
-
-//   randomItems(num) {
-//     axios
-//       // .get(this.url)
-//       .get("/shop")
-
-//       .then((response) => {
-//         const data = response.data;
-//         for (let i = 0; i < num; i++) {
-//           const randomItem = data[Math.floor(Math.random() * data.length)];
-//           const cartIdDivs = document.querySelectorAll(".cart-id");
-
-//           randomItemList.push({
-//             id: randomItem.id,
-//             category: randomItem.category,
-//             price: randomItem.price,
-//           });
-
-//           let count = 1;
-//           if (cartIdDivs) {
-//             for (let x in cartIdDivs) {
-//               if (cartIdDivs[x].innerText == randomItem.id) {
-//                 console.log("existing ID", cartIdDivs[x].innerText);
-//                 count++;
-//                 console.log(`count is ${count}`);
-//                 // Hide duplicate item
-//                 const dups = document.querySelectorAll(
-//                   `.cartId${randomItem.id}`
-//                 );
-
-//                 for (let i = 0; i < dups.length; i++) {
-//                   dups[i].style.display = "none";
-//                 }
-//               }
-//             }
-//           }
-
-//           if (document.querySelector(`.cartId${randomItem.id}`)) {
-//             showCartItems(
-//               randomItem.title,
-//               randomItem.price * count,
-//               randomItem.image,
-//               randomItem.id,
-//               count
-//             );
-//           } else {
-//             showCartItems(
-//               randomItem.title,
-//               randomItem.price,
-//               randomItem.image,
-//               randomItem.id,
-//               count
-//             );
-//           }
-//           grandTotal(randomItem.id);
-//           this.#getCurrentItems();
-//         }
-//       })
-//       .catch((error) => {
-//         console.error(`Error: ${error.message}`);
-//         alert("Error retrieving information.");
-//       });
-//   }
-
-//   #getCurrentItems() {
-//     if (!document.querySelectorAll(".cart-item-div")) {
-//       console.log("No items");
-//     } else {
-//       let listOfProductPerCategory = [];
-//       let count = {};
-//       let typeArr = [];
-//       let priceTotalPerCategory = {};
-//       let averageArray = [];
-
-//       //Extracting category name for each object so this results an array with duplicates
-//       this.list.forEach((product) => {
-//         listOfProductPerCategory.push({
-//           [product.category]: product.price,
-//         });
-//       });
-
-//       listOfProductPerCategory.forEach((element) => {
-//         count[Object.keys(element)] = (count[Object.keys(element)] || 0) + 1;
-//         priceTotalPerCategory[Object.keys(element)] =
-//           (parseFloat(priceTotalPerCategory[Object.keys(element)]) || 0) +
-//           parseFloat(Object.values(element));
-//       });
-
-//       // Separate keys and values as separate arrays to use Apache Echart's xAxis and yAxis
-//       for (let x in count) {
-//         typeArr.push(x);
-//       }
-
-//       // Change long category names to something short to fit screen better
-//       let newTypeArr = [];
-//       for (let i = 0; i < typeArr.length; i++) {
-//         if (
-//           typeArr[i] === "men's clothing" ||
-//           typeArr[i] === "women's clothing"
-//         ) {
-//           const newItem = typeArr[i].replace(" clothing", "");
-//           newTypeArr.push(newItem);
-//         } else {
-//           newTypeArr.push(typeArr[i]);
-//         }
-//       }
-
-//       //Get average per category
-//       for (let x in priceTotalPerCategory) {
-//         averageArray.push((priceTotalPerCategory[x] / count[x]).toFixed(2));
-//       }
-
-//       const myChart = echarts.init(document.getElementById("productsChart"));
-
-//       myChart.setOption({
-//         title: {
-//           text: "Category Average",
-//           textStyle: {
-//             color: "#808080",
-//             fontStyle: "italic",
-//             fontSize: 16,
-//             fontWeight: "lighter",
-//             fontFamily: "'Tiro Bangla', serif",
-//           },
-//         },
-//         //adding custom color for bars
-//         color: ["#808080"],
-//         xAxis: [
-//           {
-//             data: newTypeArr,
-//             axisLabel: { fontSize: 8 },
-//           },
-//           {
-//             position: "bottom",
-//             offset: 30,
-//             axisLine: {
-//               show: false,
-//             },
-//             axisTick: {
-//               show: false,
-//             },
-//             data: averageArray.map((price) => `$${price}`),
-//             axisLabel: { fontSize: 9 },
-//           },
-//         ],
-//         yAxis: {},
-//         series: [
-//           {
-//             name: "Category Average",
-//             type: "bar",
-//             data: averageArray,
-//           },
-//         ],
-//       });
-//     }
-//   }
-// }
-
 //Chart class With actual Cart Items from /cart
 class Chart {
   constructor(list) {
-    // this.url = url;
     this.list = list;
   }
 
   randomItems() {
     axios
-      // .get(this.url)
       .get("/shop/cart")
-
       .then((response) => {
         const data = response.data;
         console.log(data);
@@ -352,7 +181,6 @@ class Chart {
           [product.category]: product.price,
         });
       });
-
 
       listOfProductPerCategory.forEach((element) => {
         count[Object.keys(element)] = (count[Object.keys(element)] || 0) + 1;

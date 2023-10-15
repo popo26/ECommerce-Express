@@ -1,4 +1,3 @@
-const axios = require("axios");
 const DataFetch = require('../libraries/DataFetch');
 const dataFetch = new DataFetch();
 
