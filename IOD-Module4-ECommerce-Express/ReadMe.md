@@ -9,3 +9,8 @@ back-end to handle all third-party data fetching using axios. Your front end sho
 fetch from your back-end instead of the fake store API directly.
 Make sure to make a clean MVC Structure and use Swagger to test things out, and make a
 documentation that is easy to read and test.
+
+### Also ..
+
+- [x] Luxon library
+- [x] Swagger
